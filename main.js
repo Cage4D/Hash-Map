@@ -27,8 +27,8 @@ class HashMap {
 
             //check if the list contains a node with the Key value
             while (current !== null) {
-                if (current.hasOwnProperty(key)) {
-                    current[key] = value
+                if (current.key === key) {
+                    current.value = value
                     return;
                 }
                 current = current.nextNode
@@ -43,8 +43,8 @@ class HashMap {
         const bucketList = this.bucketArray[hash]
         let current = bucketList.head
         while (current !== null) {
-            if (current.hasOwnProperty(key)) {
-                return current[key]
+            if (current.key === key) {
+                return current.value
             }
             current = current.nextNode
         }
@@ -57,7 +57,7 @@ class HashMap {
         const bucketList = this.bucketArray[hash]
         let current = bucketList.head
         while (current !== null) {
-            if (current.hasOwnProperty(key)) return true
+            if (current.key === key) return true
             current = current.nextNode
         }
         return false
@@ -68,9 +68,13 @@ class HashMap {
         if (!this.bucketArray[hash]) return;
         const bucketList = this.bucketArray[hash]
         let current = bucketList.head
-        while (current !== null) {
-            if (current.nextNode.hasOwnProperty(key)) {
-                if (current.nextNode.nextNode) {
+        if (current.key === key) {
+            bucketList.head = current.nextNode
+            return;
+        }
+        while (current.nextNode !== null) {
+            if (current.nextNode.key === key) {
+                if (current.nextNode.nextNode !== null) {
                     current.nextNode = current.nextNode.nextNode
                     return true;
                 } 
@@ -84,23 +88,29 @@ class HashMap {
 
     length() {
         let count = 0
-        for (bucket of this.bucketArray) {
-            const size = bucket.size()
-            count += size
+        for (const bucket of this.bucketArray) {
+            if (bucket) {
+                const size = bucket.size()
+                count += size
+            }
         }
         return count
     }
 
     clear() {
-        for (bucket of this.bucketArray) {
-            bucket.clear()
+        for (const bucket of this.bucketArray) {
+            if (bucket) {
+                bucket.clear()
+            }
         }
     }
+
 }
 
 class Node {
     constructor(key, value, nextNode = null) {
-        this[key] = value
+        this.key = key
+        this.value = value
         this.nextNode = nextNode
     }
 }
@@ -138,7 +148,12 @@ class LinkedList {
     }
 }
 
-// const map = new HashMap()
+const map = new HashMap()
+map.set("hiddenLeaf", "Naruto")
+map.set("Rama", "uhh...")
+map.set("Sita", "uhh...")
+// map.remove("Sita")
+console.log(map.bucketArray)
 // console.log(map.hash("mary"))
 // console.log(map.hash("MaRy"))
 

@@ -62,6 +62,40 @@ class HashMap {
         }
         return false
     }
+
+    remove(key) {
+        const hash = this.hash(key)
+        if (!this.bucketArray[hash]) return;
+        const bucketList = this.bucketArray[hash]
+        let current = bucketList.head
+        while (current !== null) {
+            if (current.nextNode.hasOwnProperty(key)) {
+                if (current.nextNode.nextNode) {
+                    current.nextNode = current.nextNode.nextNode
+                    return true;
+                } 
+                current.nextNode = null               
+                return true;
+            }
+            current = current.nextNode
+        }
+        return false;
+    }
+
+    length() {
+        let count = 0
+        for (bucket of this.bucketArray) {
+            const size = bucket.size()
+            count += size
+        }
+        return count
+    }
+
+    clear() {
+        for (bucket of this.bucketArray) {
+            bucket.clear()
+        }
+    }
 }
 
 class Node {
@@ -97,6 +131,10 @@ class LinkedList {
             current = current.nextNode
         }
         return count;
+    }
+
+    clear() {
+        this.head = null
     }
 }
 

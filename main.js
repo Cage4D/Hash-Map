@@ -134,6 +134,21 @@ class HashMap {
         }
         return arr
     }
+    
+    entries() {
+        let arr = []
+        for (const bucket of this.bucketArray) {
+            if (bucket) {
+                let current = bucket.head
+                arr.push([current.key, current.value])
+                while (current.nextNode !== null) {
+                    arr.push([current.nextNode.key, current.nextNode.value])
+                    current = current.nextNode
+                }
+            }
+        }
+        return arr
+    }
 }
 
 class Node {
@@ -185,6 +200,7 @@ map.set("Sita", "uhh...")
 console.log(map.bucketArray)
 console.log(map.keys())
 console.log(map.values())
+console.log(map.entries())
 // console.log(map.hash("mary"))
 // console.log(map.hash("MaRy"))
 

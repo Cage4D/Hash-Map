@@ -98,11 +98,7 @@ class HashMap {
     }
 
     clear() {
-        for (const bucket of this.bucketArray) {
-            if (bucket) {
-                bucket.clear()
-            }
-        }
+        this.bucketArray = new Array(16)
     }
 
     keys() {
@@ -185,10 +181,6 @@ class LinkedList {
             current = current.nextNode
         }
         return count;
-    }
-
-    clear() {
-        this.head = null
     }
 }
 

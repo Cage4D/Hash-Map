@@ -8,11 +8,16 @@ class HashMap {
     arraySize() {
         const product = this.capacity * this.loadFactor
         let count = 0
-        for (const bucket of this.bucketArray) {
+        let arr = [...this.bucketArray]
+        this.bucketArray = []
+        for (const bucket of arr) {
             if (bucket) count++
         }
         if (count > product) {
             this.capacity *= 2
+            for (bucket of arr) {
+                if (bucket) this.set(bucket.key, bucket.value)
+            }
             return;
         }
     }

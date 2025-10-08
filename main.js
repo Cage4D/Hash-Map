@@ -2,7 +2,19 @@ class HashMap {
     constructor() {
         this.capacity = 16
         this.loadFactor = 0.75
-        this.bucketArray = new Array(this.capacity)
+        this.bucketArray = []
+    }
+
+    arraySize() {
+        const product = this.capacity * this.loadFactor
+        let count = 0
+        for (const bucket of this.bucketArray) {
+            if (bucket) count++
+        }
+        if (count > product) {
+            this.capacity *= 2
+            return;
+        }
     }
     
     hash(key) {
@@ -15,6 +27,7 @@ class HashMap {
     }
 
     set(key, value) {
+        this.arraySize()
         const hash = this.hash(key)
         if (!this.bucketArray[hash]) {
             const newList = new LinkedList()
@@ -70,7 +83,7 @@ class HashMap {
         let current = bucketList.head
         if (current.key === key) {
             bucketList.head = current.nextNode
-            return;
+            return true;
         }
         while (current.nextNode !== null) {
             if (current.nextNode.key === key) {
@@ -184,15 +197,35 @@ class LinkedList {
     }
 }
 
-const map = new HashMap()
-map.set("hiddenLeaf", "Naruto")
-map.set("Rama", "uhh...")
-map.set("Sita", "uhh...")
+const test = new HashMap()
+
+ test.set('apple', 'red')
+ test.set('banana', 'yellow')
+ test.set('carrot', 'orange')
+ test.set('dog', 'brown')
+ test.set('elephant', 'gray')
+ test.set('frog', 'green')
+ test.set('grape', 'purple')
+ test.set('hat', 'black')
+ test.set('ice cream', 'white')
+ test.set('jacket', 'blue')
+ test.set('kite', 'pink')
+ test.set('lion', 'golden')
+
+console.log(test.bucketArray)
+console.log(test.bucketArray.length)
+
+test.set("dog", "Woof Woof!")
+console.log(test.keys())
+console.log(test.values())
+console.log(test.entries())
+console.log(test.bucketArray)
+// const map = new HashMap()
+// map.set("hiddenLeaf", "Naruto")
+// map.set("Rama", "uhh...")
+// map.set("Sita", "uhh...")
 // map.remove("Sita")
-console.log(map.bucketArray)
-console.log(map.keys())
-console.log(map.values())
-console.log(map.entries())
+// console.log(map.bucketArray)
 // console.log(map.hash("mary"))
 // console.log(map.hash("MaRy"))
 

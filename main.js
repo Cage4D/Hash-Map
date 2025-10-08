@@ -36,6 +36,32 @@ class HashMap {
             bucketList.append(key, value)
         }
     }
+
+    get(key) {
+        const hash = this.hash(key)
+        if (!this.bucketArray[hash]) return null
+        const bucketList = this.bucketArray[hash]
+        let current = bucketList.head
+        while (current !== null) {
+            if (current.hasOwnProperty(key)) {
+                return current[key]
+            }
+            current = current.nextNode
+        }
+        return null
+    }
+
+    has(key) {
+        const hash = this.hash(key)
+        if (!this.bucketArray[hash]) return false
+        const bucketList = this.bucketArray[hash]
+        let current = bucketList.head
+        while (current !== null) {
+            if (current.hasOwnProperty(key)) return true
+            current = current.nextNode
+        }
+        return false
+    }
 }
 
 class Node {

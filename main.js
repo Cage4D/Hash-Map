@@ -116,7 +116,7 @@ class HashMap {
     }
 
     clear() {
-        this.bucketArray = new Array(16)
+        this.bucketArray = []
     }
 
     keys() {
